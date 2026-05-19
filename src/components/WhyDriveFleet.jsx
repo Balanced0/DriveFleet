@@ -15,7 +15,7 @@ const WhyDriveFleet = () => {
         <p className="text-gray-400 text-lg mb-13">
           A rental experience engineered for drivers, not paperwork.
         </p>
-        <div className="grid grid-cols-1 gap-4 mb-20 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 mb-20 md:grid-cols-2 lg:grid-cols-4">
           <div className="card bg-black shadow-sm border border-gray-500 rounded-3xl hover:border-orange-500">
             <div className="card-body">
               <div className="bg-orange-500 p-3 rounded-2xl w-fit mb-3">
