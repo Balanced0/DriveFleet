@@ -13,8 +13,14 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "@/app/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+
 const LoginPage = () => {
-  const onSubmit = (e) => {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = {};
@@ -22,7 +28,19 @@ const LoginPage = () => {
     formData.forEach((value, key) => {
       data[key] = value.toString();
     });
-    alert(`Form submitted with: ${JSON.stringify(data, null, 2)}`);
+
+    const { data: res, error } = await authClient.signIn.email({
+      email: data.email,
+      password: data.password,
+      callbackURL: "/",
+    });
+
+    if (!error) {
+      router.push("/");
+    }
+    else{
+      toast.error(`${error.message}`);
+    }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -77,7 +95,10 @@ const LoginPage = () => {
             }}
           >
             <Label>Email</Label>
-            <Input placeholder="Enter your email" className="border border-gray-400"/>
+            <Input
+              placeholder="Enter your email"
+              className="border border-gray-400"
+            />
             <FieldError />
           </TextField>
           <TextField
@@ -102,14 +123,21 @@ const LoginPage = () => {
             }}
           >
             <Label>Password</Label>
-            <Input placeholder="Enter your password" className="border border-gray-400"/>
+            <Input
+              placeholder="Enter your password"
+              className="border border-gray-400"
+            />
             <Description>
-              Must be at least 6 characters with 1 uppercase, 1 lowercase and 1 number
+              Must be at least 6 characters with 1 uppercase, 1 lowercase and 1
+              number
             </Description>
             <FieldError />
           </TextField>
           <div className="w-full">
-            <Button type="submit" className="bg-orange-500 text-black w-full rounded-xl">
+            <Button
+              type="submit"
+              className="bg-orange-500 text-black w-full rounded-xl"
+            >
               Login
             </Button>
           </div>
@@ -117,9 +145,17 @@ const LoginPage = () => {
           <div className="flex gap-2 items-center justify-center border rounded-xl btn border-gray-500 hover:bg-orange-500">
             <FaGoogle /> Continue with Google
           </div>
-          <p className="text-center"><span className="text-gray-400">New to DriveFleet?</span> <Link href="/register"><span className="text-orange-500 font-bold">Create an account</span></Link></p>
+          <p className="text-center">
+            <span className="text-gray-400">New to DriveFleet?</span>{" "}
+            <Link href="/register">
+              <span className="text-orange-500 font-bold">
+                Create an account
+              </span>
+            </Link>
+          </p>
         </Form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
