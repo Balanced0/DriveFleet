@@ -7,8 +7,6 @@ export default function DashboardLayout({children}){
     return <section>
         <Navbar></Navbar>
         {children}
-        <WhyDriveFleet></WhyDriveFleet>
-        <HowItWorks></HowItWorks>
         <Footer></Footer>
     </section>
 }

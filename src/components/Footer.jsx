@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="border-t-1 border-t-gray-500"></div>
-      <p className="text-gray-400 text-sm mt-4 text-center">© 2026 DriveFleet. All rights reserved.</p>
+      <p className="text-gray-400 text-sm mt-4 mb-8 text-center">© 2026 DriveFleet. All rights reserved.</p>
     </div>
   );
 };
