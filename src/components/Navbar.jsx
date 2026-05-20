@@ -1,10 +1,13 @@
 import React from "react";
-import { Car } from 'lucide-react';
+import { Car } from "lucide-react";
+import NavLink from "./NavLink";
+import Link from "next/link";
+import { MdLogin } from "react-icons/md";
 
 const Navbar = () => {
   return (
     <div>
-      <div className="navbar bg-black shadow-sm">
+      <div className="navbar bg-black shadow-sm border-b border-gray-600">
         <div className="container mx-auto flex px-4">
           <div className="navbar-start">
             <div className="dropdown">
@@ -34,48 +37,47 @@ const Navbar = () => {
                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
               >
                 <li>
-                  <a>Home</a>
+                  <NavLink href="/">Home</NavLink>
                 </li>
                 <li>
-                  <a>Item 1</a>
+                  <NavLink href="/explore">Explore Cars</NavLink>
                 </li>
                 <li>
-                  <a>Item 3</a>
+                  <NavLink href="/add">Add Car</NavLink>
+                </li>
+                <li>
+                  <NavLink href="/bookings">My Bookings</NavLink>
                 </li>
               </ul>
             </div>
             <div className="flex gap-2 items-center">
               <div className="bg-orange-500 p-2 rounded-2xl">
-                <Car className="text-black"/>
+                <Car className="text-black" />
               </div>
-              <a className="text-xl"><span className="font-extrabold">Drive</span><span className="font-extrabold text-orange-500">Fleet</span></a>
+              <a className="text-xl">
+                <span className="font-extrabold">Drive</span>
+                <span className="font-extrabold text-orange-500">Fleet</span>
+              </a>
             </div>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               <li>
-                <a>Item 1</a>
+                <NavLink href="/">Home</NavLink>
               </li>
               <li>
-                <details>
-                  <summary>Parent</summary>
-                  <ul className="p-2 bg-base-100 w-40 z-1">
-                    <li>
-                      <a>Submenu 1</a>
-                    </li>
-                    <li>
-                      <a>Submenu 2</a>
-                    </li>
-                  </ul>
-                </details>
+                <NavLink href="/explore">Explore Cars</NavLink>
               </li>
               <li>
-                <a>Item 3</a>
+                <NavLink href="/add">Add Car</NavLink>
+              </li>
+              <li>
+                <NavLink href="/bookings">My Bookings</NavLink>
               </li>
             </ul>
           </div>
-          <div className="navbar-end">
-            <a className="btn">Button</a>
+          <div className="navbar-end hidden lg:flex">
+            <Link href="/login" className="btn bg-orange-500 text-black rounded-xl">Login <MdLogin /></Link>
           </div>
         </div>
       </div>
