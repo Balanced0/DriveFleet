@@ -20,6 +20,13 @@ import { ToastContainer, toast } from "react-toastify";
 const RegisterPage = () => {
   const router = useRouter();
 
+  const handleGoogleSignIn = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -40,7 +47,7 @@ const RegisterPage = () => {
     if (!error) {
       router.push("/login");
     } else {
-        toast.error(`${error.message}`);
+      toast.error(`${error.message}`);
     }
   };
   return (
@@ -166,7 +173,10 @@ const RegisterPage = () => {
             </Button>
           </div>
           <div className="divider">OR</div>
-          <div className="flex gap-2 items-center justify-center border rounded-xl btn border-gray-500 hover:bg-orange-500">
+          <div
+            onClick={handleGoogleSignIn}
+            className="flex gap-2 items-center justify-center border rounded-xl btn border-gray-500 hover:bg-orange-500"
+          >
             <FaGoogle /> Continue with Google
           </div>
           <p className="text-center">
