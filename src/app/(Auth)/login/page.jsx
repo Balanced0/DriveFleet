@@ -2,6 +2,7 @@
 import authBG from "@/assets/auth-bg.jpg";
 import { Check } from "@gravity-ui/icons";
 import { Car } from "lucide-react";
+import { FaGoogle } from "react-icons/fa";
 import {
   Button,
   Description,
@@ -11,6 +12,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import Link from "next/link";
 const page = () => {
   const onSubmit = (e) => {
     e.preventDefault();
@@ -51,7 +53,7 @@ const page = () => {
         </div>
       </div>
       <div className="flex flex-col items-center justify-center p-4 bg-black min-h-screen">
-        <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
+        <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
           <div className="flex gap-2 items-center mb-8 lg:hidden">
             <div className="bg-orange-500 p-2 rounded-2xl">
               <Car className="text-black" />
@@ -75,7 +77,7 @@ const page = () => {
             }}
           >
             <Label>Email</Label>
-            <Input placeholder="john@example.com" />
+            <Input placeholder="Enter your email" className="border border-gray-400"/>
             <FieldError />
           </TextField>
           <TextField
@@ -84,11 +86,14 @@ const page = () => {
             name="password"
             type="password"
             validate={(value) => {
-              if (value.length < 8) {
-                return "Password must be at least 8 characters";
+              if (value.length < 6) {
+                return "Password must be at least 6 characters";
               }
               if (!/[A-Z]/.test(value)) {
                 return "Password must contain at least one uppercase letter";
+              }
+              if (!/[a-z]/.test(value)) {
+                return "Password must contain at least one lowercase letter";
               }
               if (!/[0-9]/.test(value)) {
                 return "Password must contain at least one number";
@@ -97,21 +102,22 @@ const page = () => {
             }}
           >
             <Label>Password</Label>
-            <Input placeholder="Enter your password" />
+            <Input placeholder="Enter your password" className="border border-gray-400"/>
             <Description>
-              Must be at least 8 characters with 1 uppercase and 1 number
+              Must be at least 6 characters with 1 uppercase, 1 lowercase and 1 number
             </Description>
             <FieldError />
           </TextField>
-          <div className="flex gap-2">
-            <Button type="submit">
-              <Check />
-              Submit
-            </Button>
-            <Button type="reset" variant="secondary">
-              Reset
+          <div className="w-full">
+            <Button type="submit" className="bg-orange-500 text-black w-full rounded-xl">
+              Login
             </Button>
           </div>
+          <div className="divider">OR</div>
+          <div className="flex gap-2 items-center justify-center border rounded-xl btn border-gray-500 hover:bg-orange-500">
+            <FaGoogle /> Continue with Google
+          </div>
+          <p className="text-center"><span className="text-gray-400">New to DriveFleet?</span> <Link href="/register"><span className="text-orange-500 font-bold">Create an account</span></Link></p>
         </Form>
       </div>
     </div>
