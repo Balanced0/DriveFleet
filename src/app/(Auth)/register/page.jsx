@@ -13,7 +13,8 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
-const LoginPage = () => {
+
+const RegisterPage = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -44,11 +45,10 @@ const LoginPage = () => {
 
         <div className="absolute bottom-10 left-10">
           <h1 className="text-4xl font-extrabold mb-4">
-            Your next ride is one tap away.
+            Start driving in 60 seconds.
           </h1>
           <p className="text-lg text-gray-400">
-            Join 50,000+ drivers using DriveFleet to rent premium cars
-            worldwide.
+            No paperwork. No deposits. Just keys and the open road.
           </p>
         </div>
       </div>
@@ -63,8 +63,12 @@ const LoginPage = () => {
               <span className="font-extrabold text-orange-500">Fleet</span>
             </a>
           </div>
-          <h1 className="text-3xl font-extrabold">Welcome Back</h1>
-          <p className="text-gray-400">Login to continue your journey.</p>
+          <h1 className="text-3xl font-extrabold">Create your account</h1>
+          <p className="text-gray-400">Free forever. Cancel anytime.</p>
+          <TextField isRequired className="w-full" name="fullName">
+            <Label>Full Name</Label>
+            <Input placeholder="Full name" className="border border-gray-400" />
+          </TextField>
           <TextField
             isRequired
             name="email"
@@ -77,7 +81,33 @@ const LoginPage = () => {
             }}
           >
             <Label>Email</Label>
-            <Input placeholder="Enter your email" className="border border-gray-400"/>
+            <Input
+              placeholder="Enter your email"
+              className="border border-gray-400"
+            />
+            <FieldError />
+          </TextField>
+          <TextField
+            isRequired
+            className="w-full"
+            name="photoURL"
+            type="url"
+            validate={(value) => {
+              try {
+                new URL(value);
+                return null;
+              } catch {
+                return "Please enter a valid image URL";
+              }
+            }}
+          >
+            <Label>Photo URL</Label>
+
+            <Input
+              placeholder="Photo URL"
+              className="border border-gray-400"
+            />
+
             <FieldError />
           </TextField>
           <TextField
@@ -102,26 +132,38 @@ const LoginPage = () => {
             }}
           >
             <Label>Password</Label>
-            <Input placeholder="Enter your password" className="border border-gray-400"/>
+            <Input
+              placeholder="Enter your password"
+              className="border border-gray-400"
+            />
             <Description>
-              Must be at least 6 characters with 1 uppercase, 1 lowercase and 1 number
+              Must be at least 6 characters with 1 uppercase, 1 lowercase and 1
+              number
             </Description>
             <FieldError />
           </TextField>
           <div className="w-full">
-            <Button type="submit" className="bg-orange-500 text-black w-full rounded-xl">
-              Login
+            <Button
+              type="submit"
+              className="bg-orange-500 text-black w-full rounded-xl"
+            >
+              Create account
             </Button>
           </div>
           <div className="divider">OR</div>
           <div className="flex gap-2 items-center justify-center border rounded-xl btn border-gray-500 hover:bg-orange-500">
             <FaGoogle /> Continue with Google
           </div>
-          <p className="text-center"><span className="text-gray-400">New to DriveFleet?</span> <Link href="/register"><span className="text-orange-500 font-bold">Create an account</span></Link></p>
+          <p className="text-center">
+            <span className="text-gray-400">Already have an account?</span>{" "}
+            <Link href="/login">
+              <span className="text-orange-500 font-bold">Login</span>
+            </Link>
+          </p>
         </Form>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
