@@ -13,9 +13,14 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
+import { authClient } from "@/app/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 
 const RegisterPage = () => {
-  const onSubmit = (e) => {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = {};
@@ -23,7 +28,20 @@ const RegisterPage = () => {
     formData.forEach((value, key) => {
       data[key] = value.toString();
     });
-    alert(`Form submitted with: ${JSON.stringify(data, null, 2)}`);
+
+    const { data: res, error } = await authClient.signUp.email({
+      email: data.email,
+      password: data.password,
+      name: data.fullName,
+      image: data.photoURL,
+      callbackURL: "/login",
+    });
+
+    if (!error) {
+      router.push("/login");
+    } else {
+        toast.error(`${error.message}`);
+    }
   };
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2">
@@ -103,10 +121,7 @@ const RegisterPage = () => {
           >
             <Label>Photo URL</Label>
 
-            <Input
-              placeholder="Photo URL"
-              className="border border-gray-400"
-            />
+            <Input placeholder="Photo URL" className="border border-gray-400" />
 
             <FieldError />
           </TextField>
@@ -162,6 +177,7 @@ const RegisterPage = () => {
           </p>
         </Form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
