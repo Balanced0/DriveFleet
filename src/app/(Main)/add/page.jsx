@@ -23,7 +23,8 @@ import {
 } from "lucide-react";
 
 const AddCarPage = () => {
-  const onSubmit = (e) => {
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = {};
@@ -31,7 +32,16 @@ const AddCarPage = () => {
     formData.forEach((value, key) => {
       data[key] = value.toString();
     });
+
+    const res = await fetch("http://localhost:5000/cars", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
   };
+
   return (
     <div className="bg-black">
       <div className="container mx-auto px-4 flex flex-col items-center justify-center min-h-screen">
@@ -76,7 +86,7 @@ const AddCarPage = () => {
                 <FieldError />
               </TextField>
 
-              <Select isRequired className="w-[256px]" placeholder="Select one">
+              <Select isRequired className="w-[256px]" placeholder="Select one" name="carType">
                 <Label className="flex items-center gap-2 text-gray-400 font-medium">
                   <Car className="text-orange-500 w-4 h-4" /> CAR TYPE
                 </Label>
@@ -149,7 +159,7 @@ const AddCarPage = () => {
               </TextField>
             </div>
 
-            <Select isRequired placeholder="Select one">
+            <Select isRequired placeholder="Select one" name="availability">
               <Label className="flex items-center gap-2 text-gray-400 font-medium">
                 <CircleCheck className="text-orange-500 w-4 h-4" /> AVAILABILITY
                 STATUS
