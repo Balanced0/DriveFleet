@@ -21,9 +21,10 @@ import {
   FileText,
   CircleCheck,
 } from "lucide-react";
+import { authClient } from "@/app/lib/auth-client";
+import { ToastContainer, toast } from 'react-toastify';
 
 const AddCarPage = () => {
-
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -33,13 +34,34 @@ const AddCarPage = () => {
       data[key] = value.toString();
     });
 
+    const { data: session } = await authClient.getSession();
+
+    const newData = {
+      userId: session.user.id,
+      carName: data.carName,
+      price: data.price,
+      carType: data.carType,
+      seat: data.seat,
+      image: data.image,
+      pickUpLocation: data.pickUpLocation,
+      availability: data.availability,
+      description: data.description,
+    };
+
     const res = await fetch("http://localhost:5000/cars", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(newData),
     });
+
+    if(res.ok){
+      toast.success("Car listed successfully!");
+    }
+    else{
+      toast.error("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -86,7 +108,12 @@ const AddCarPage = () => {
                 <FieldError />
               </TextField>
 
-              <Select isRequired className="w-[256px]" placeholder="Select one" name="carType">
+              <Select
+                isRequired
+                className="w-[256px]"
+                placeholder="Select one"
+                name="carType"
+              >
                 <Label className="flex items-center gap-2 text-gray-400 font-medium">
                   <Car className="text-orange-500 w-4 h-4" /> CAR TYPE
                 </Label>
@@ -201,6 +228,7 @@ const AddCarPage = () => {
           </Form>
         </div>
       </div>
+      <ToastContainer theme="dark"/>
     </div>
   );
 };
