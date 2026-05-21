@@ -1,10 +1,32 @@
+"use client";
 import React from "react";
 import { Car } from "lucide-react";
 import NavLink from "./NavLink";
 import Link from "next/link";
 import { MdLogin } from "react-icons/md";
+import { authClient } from "@/app/lib/auth-client";
+import { Button, Dropdown, Kbd, Label } from "@heroui/react";
+import { Plus } from "lucide-react";
+import { BookMarked } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+  const handleSignOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/");
+        },
+      },
+    });
+  };
+  const { data: session } = authClient.useSession();
+  if (session) {
+    console.log(session.user);
+  }
   return (
     <div>
       <div className="navbar bg-black shadow-sm border-b border-gray-600">
@@ -48,6 +70,15 @@ const Navbar = () => {
                 <li>
                   <NavLink href="/bookings">My Bookings</NavLink>
                 </li>
+                {session ? (
+                  <li onClick={handleSignOut}>
+                    <NavLink href="/">Logout</NavLink>
+                  </li>
+                ) : (
+                  <li>
+                    <NavLink href="/login">Login</NavLink>
+                  </li>
+                )}
               </ul>
             </div>
             <div className="flex gap-2 items-center">
@@ -77,7 +108,61 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="navbar-end hidden lg:flex">
-            <Link href="/login" className="btn bg-orange-500 text-black rounded-xl">Login <MdLogin /></Link>
+            {session ? (
+              <div className="">
+                <Dropdown>
+                  <Button aria-label="Menu" variant="light" isIconOnly>
+                    <div className="flex items-center gap-2 border border-gray-600 rounded-3xl">
+                      <div className="avatar p-2">
+                        <div className="ring-orange-500 ring-offset-base-100 w-10 rounded-full ring-2 ring-offset-2">
+                          <img
+                            src={session.user.image}
+                            alt={session.user.name}
+                          />
+                        </div>
+                      </div>
+                      <div className="p-2">
+                        <ChevronDown className="w-6 h-6 text-gray-400" />
+                      </div>
+                    </div>
+                  </Button>
+                  <Dropdown.Popover>
+                    <Dropdown.Menu
+                      onAction={(key) => console.log(`Selected: ${key}`)}
+                    >
+                      <Dropdown.Item id="new-file" textValue="New file" onPress={() => router.push("/add")}>
+                        <Plus className="size-4 shrink-0 text-muted" />
+                        <Label>Add Car</Label>
+                      </Dropdown.Item>
+                      <Dropdown.Item id="open-file" textValue="Open file" onPress={() => router.push("/bookings")}>
+                        <BookMarked className="size-4 shrink-0 text-muted" />
+                        <Label>By Bookings</Label>
+                      </Dropdown.Item>
+                      <Dropdown.Item id="save-file" textValue="Save file" onPress={() => router.push("/added")}>
+                        <Car className="size-4 shrink-0 text-muted" />
+                        <Label>My Added Cars</Label>
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        id="delete-file"
+                        textValue="Delete file"
+                        variant="danger"
+                        onClick={handleSignOut}
+                      >
+                        <LogOut className="size-4 shrink-0 text-danger" />
+                        <Label>Logout</Label>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown.Popover>
+                </Dropdown>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className="btn bg-orange-500 text-black rounded-xl"
+              >
+                Login <MdLogin />
+              </Link>
+            )}
           </div>
         </div>
       </div>
