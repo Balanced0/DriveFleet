@@ -13,6 +13,7 @@
     "@contentstack/react-toastify": "^6.1.5",
     "@gravity-ui/icons": "^2.18.0",
     "@heroui/react": "^3.0.5",
+    "@heroui/select": "^2.4.33",
     "@heroui/styles": "^3.0.5",
     "animate.css": "^4.1.1",
     "better-auth": "^1.6.11",
