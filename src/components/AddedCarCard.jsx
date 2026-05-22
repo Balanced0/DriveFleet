@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { Users, MapPin, Pencil, Car } from "lucide-react";
+import { Users, MapPin, Pencil, Car, Trash2 } from "lucide-react";
 import { Dot } from "lucide-react";
 import { Envelope } from "@gravity-ui/icons";
 import {
@@ -18,9 +18,22 @@ import {
 } from "@heroui/react";
 import { authClient } from "@/app/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { AlertDialog } from "@heroui/react";
 
 const AddedCarCard = ({ car }) => {
   const router = useRouter();
+
+  const handleDelete = async () => {
+    const res = await fetch(`http://localhost:5000/cars/${car._id}`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    if (res.ok) {
+      router.refresh();
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -89,7 +102,7 @@ const AddedCarCard = ({ car }) => {
             {car.pickUpLocation}
           </p>
         </div>
-        <div>
+        <div className="flex gap-4">
           <Modal>
             <Button className="w-full rounded-xl bg-black border border-gray-600">
               <Pencil /> Edit
@@ -273,6 +286,47 @@ const AddedCarCard = ({ car }) => {
               </Modal.Container>
             </Modal.Backdrop>
           </Modal>
+
+          <AlertDialog>
+            <Button
+              variant="danger"
+              className="rounded-xl bg-black text-red-600 border border-gray-600"
+            >
+              <Trash2 /> Delete
+            </Button>
+            <AlertDialog.Backdrop>
+              <AlertDialog.Container>
+                <AlertDialog.Dialog className="sm:max-w-[400px]">
+                  <AlertDialog.CloseTrigger />
+                  <AlertDialog.Header>
+                    <AlertDialog.Icon status="danger" />
+                    <AlertDialog.Heading>
+                      Delete permanently?
+                    </AlertDialog.Heading>
+                  </AlertDialog.Header>
+                  <AlertDialog.Body>
+                    <p>
+                      This will permanently delete{" "}
+                      <strong>{car.carName}</strong> and all of its data. This
+                      action cannot be undone.
+                    </p>
+                  </AlertDialog.Body>
+                  <AlertDialog.Footer>
+                    <Button slot="close" variant="tertiary">
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleDelete}
+                      slot="close"
+                      variant="danger"
+                    >
+                      Delete
+                    </Button>
+                  </AlertDialog.Footer>
+                </AlertDialog.Dialog>
+              </AlertDialog.Container>
+            </AlertDialog.Backdrop>
+          </AlertDialog>
         </div>
       </div>
     </div>
