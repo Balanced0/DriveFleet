@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Users, MapPin } from "lucide-react";
+import Link from "next/link";
 
 const CarCard = ({ car }) => {
   return (
@@ -39,9 +40,11 @@ const CarCard = ({ car }) => {
             </span>
           </p>
         </div>
-        <button className="btn bg-orange-500 text-black rounded-xl">
-          View Details
-        </button>
+        <Link href={`/details/${car._id}`}>
+          <button className="btn w-full bg-orange-500 text-black rounded-xl">
+            View Details
+          </button>
+        </Link>
       </div>
     </div>
   );
