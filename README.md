@@ -53,23 +53,24 @@ Explore, book, and manage rental cars with a clean and responsive full-stack web
 
 ---
 
-# 🛠️ Tech Stack
+# Tech Stack
 
 ## Frontend
 - React.js
 - Tailwind CSS
+- DaisyUI
+- HeroUI
 - React Router
-- Axios
-- BetterAuth Authentication
+- BetterAuth Authentication (Client)
 - Animate.css
-- React Hot Toast
+- React Toastify
+- Lucide React
 
 ## Backend
 - Node.js
 - Express.js
 - MongoDB
 - JWT
-- Cookie Parser
 - dotenv
 - CORS
 
