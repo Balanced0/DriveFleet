@@ -8,7 +8,7 @@ const DetailsPage = async ({ params }) => {
   });
 
   const { id } = await params;
-  const res = await fetch(`http://localhost:5000/cars/detail/${id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/detail/${id}`);
   const car = await res.json();
   return (
     <DetailsClient car={car} session={session}></DetailsClient>

@@ -4,7 +4,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import CarCard from "@/components/CarCard";
 
 const Available = async () => {
-  const res = await fetch("http://localhost:5000/cars");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars`);
   const data = await res.json();
   return (
     <div className="bg-black">

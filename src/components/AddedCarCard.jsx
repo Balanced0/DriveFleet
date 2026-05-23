@@ -24,7 +24,7 @@ const AddedCarCard = ({ car }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const res = await fetch(`http://localhost:5000/cars/${car._id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${car._id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json",
@@ -58,7 +58,7 @@ const AddedCarCard = ({ car }) => {
       description: data.description,
     };
 
-    const res = await fetch(`http://localhost:5000/cars/${car._id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${car._id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

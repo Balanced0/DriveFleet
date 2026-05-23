@@ -5,7 +5,7 @@ import { SlidersHorizontal } from "lucide-react";
 
 const ExploreCarsPage = async ({ searchParams }) => {
   const { carName, carType } = await searchParams;
-  const url = new URL("http://localhost:5000/cars/search");
+  const url = new URL(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/search`);
   if (carName) {
     url.searchParams.set("carName", carName);
   }
