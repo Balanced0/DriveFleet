@@ -73,14 +73,16 @@ const DetailsClient = ({ car, session }) => {
         </Link>
 
         <div className="relative w-full h-[250px] md:h-[400px] lg:h-[500px] border border-gray-600 rounded-2xl mb-10">
-          <div className="absolute z-1000 bottom-6 left-6">
-            <div className="badge bg-black border border-gray-600 text-white rounded-2xl p-3">
+          <div className="absolute z-1000 bottom-4 left-4 md:bottom-6 md:left-6">
+            <div className="badge bg-black border border-gray-600 text-white rounded-2xl p-2 md:p-3 text-xs md:text-sm">
               {car.carType}
             </div>
-            <p className="mt-3 text-4xl font-extrabold">{car.carName}</p>
+            <p className="mt-2 md:mt-3 text-2xl md:text-4xl font-extrabold">
+              {car.carName}
+            </p>
           </div>
           <div
-            className={`badge absolute z-1000 border text-base border-gray-600 rounded-3xl p-5 bottom-6 right-6 ${car.availability === "available" ? "badge-soft badge-success" : "badge-soft badge-error"}`}
+            className={`badge absolute z-1000 border text-xs md:text-base border-gray-600 rounded-3xl p-3 md:p-5 bottom-4 right-4 md:bottom-6 md:right-6 ${car.availability === "available" ? "badge-soft badge-success" : "badge-soft badge-error"}`}
           >
             {car.availability}
           </div>
@@ -89,7 +91,7 @@ const DetailsClient = ({ car, session }) => {
             fill
             className="object-cover rounded-2xl"
             alt={car.carName}
-          ></Image>
+          />
         </div>
         <div className="grid grid-cols-1 pb-20 gap-12 md:grid-cols-2">
           <div>
