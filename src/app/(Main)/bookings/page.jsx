@@ -5,19 +5,12 @@ import { Calendar, UserRoundCheck, UserRoundX, Dot, Car } from "lucide-react";
 import Image from "next/image";
 
 const BookingsPage = async () => {
-  const token = await auth.api.getToken({
-    headers: await headers(),
-  });
 
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session.user.id}`, {
-    headers: {
-      authorization: `Bearer ${token.token}`,
-    },
-  });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session.user.id}`);
   const data = await res.json();
   return (
     <div className="bg-black">
