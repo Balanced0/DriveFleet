@@ -20,6 +20,10 @@ import { authClient } from "@/app/lib/auth-client";
 const DetailsClient = ({ car, session }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!session) {
+      return;
+    }
+
     const formData = new FormData(e.currentTarget);
     const data = {};
     // Convert FormData to plain object

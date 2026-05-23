@@ -22,6 +22,10 @@ const FilterForm = () => {
     const carName = formData.get("carName");
     router.push(`/explore?carName=${carName}&carType=${carType}`);
   };
+  const onClear = () => {
+    setCarType("");
+    router.push("/explore");
+  };
 
   return (
     <Form onSubmit={onSubmit}>
@@ -37,11 +41,7 @@ const FilterForm = () => {
           <FieldError />
         </TextField>
 
-        <Select
-          placeholder="Select one"
-          value={carType}
-          onChange={setCarType}
-        >
+        <Select placeholder="Select one" value={carType} onChange={setCarType}>
           <Label className="flex items-center gap-2 text-gray-400 font-medium">
             Car Type
           </Label>
@@ -79,12 +79,21 @@ const FilterForm = () => {
           </Select.Popover>
         </Select>
       </div>
-      <Button
-        type="submit"
-        className="bg-orange-500 text-black rounded-xl w-full mt-6 btn"
-      >
-        Search
-      </Button>
+      <div className="flex gap-6 mt-6 w-full">
+        <Button
+          type="submit"
+          className="bg-orange-500 text-black rounded-xl flex-[3] btn"
+        >
+          Search
+        </Button>
+        <Button
+          type="button"
+          onPress={onClear}
+          className="bg-black border border-gray-600 text-white rounded-xl flex-[1] btn hover:bg-orange-500 hover:text-black"
+        >
+          Clear
+        </Button>
+      </div>
     </Form>
   );
 };
