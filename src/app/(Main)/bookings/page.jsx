@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const BookingsPage = async () => {
   const token = await auth.api.getToken({
-    headers: await headers()
+    headers: await headers(),
   });
 
   const session = await auth.api.getSession({
@@ -15,8 +15,8 @@ const BookingsPage = async () => {
 
   const res = await fetch(`http://localhost:5000/booking/${session.user.id}`, {
     headers: {
-      authorization: `Bearer ${token}`
-    } 
+      authorization: `Bearer ${token.token}`,
+    },
   });
   const data = await res.json();
   return (
