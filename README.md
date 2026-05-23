@@ -6,7 +6,7 @@
 
 Explore, book, and manage rental cars with a clean and responsive full-stack web application.
 
-<br/>
+</div>
 
 ---
 
