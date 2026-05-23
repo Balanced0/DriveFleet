@@ -7,6 +7,11 @@ const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db("DriveFleet");
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://drive-fleet-nu.vercel.app",
+  ],
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client,
@@ -31,7 +36,7 @@ export const auth = betterAuth({
       enabled: true,
       strategy: "jwt",
       maxAge: 60 * 60 * 24 * 15,
-    }
+    },
   },
   plugins: [jwt()],
 });
