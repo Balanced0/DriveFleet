@@ -5,12 +5,22 @@ import { Calendar, UserRoundCheck, UserRoundX, Dot, Car } from "lucide-react";
 import Image from "next/image";
 
 const BookingsPage = async () => {
-
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session.user.id}`);
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${session.user.id}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
+  );
   const data = await res.json();
   return (
     <div className="bg-black">
@@ -24,7 +34,10 @@ const BookingsPage = async () => {
         <div className="pb-20">
           {data.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><Car className="text-orange-500"/>No bookings yet</h3>
+              <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                <Car className="text-orange-500" />
+                No bookings yet
+              </h3>
               <p className="text-gray-400">You haven't booked any cars yet.</p>
             </div>
           ) : (

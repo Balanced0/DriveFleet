@@ -35,7 +35,7 @@ const AddCarPage = () => {
     });
 
     const { data: session } = await authClient.getSession();
-    const { data: tokenData } = await authClient.getToken();
+    const { data: tokenData } = await authClient.token();
 
     const newData = {
       userId: session.user.id,

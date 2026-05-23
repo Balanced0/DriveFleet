@@ -71,9 +71,14 @@ const Navbar = () => {
                   <NavLink href="/bookings">My Bookings</NavLink>
                 </li>
                 {session ? (
-                  <li onClick={handleSignOut}>
-                    <NavLink href="/">Logout</NavLink>
-                  </li>
+                  <>
+                    <li>
+                      <NavLink href="/added">My Added Cars</NavLink>
+                    </li>
+                    <li onClick={handleSignOut}>
+                      <NavLink href="/">Logout</NavLink>
+                    </li>
+                  </>
                 ) : (
                   <li>
                     <NavLink href="/login">Login</NavLink>
@@ -130,15 +135,27 @@ const Navbar = () => {
                     <Dropdown.Menu
                       onAction={(key) => console.log(`Selected: ${key}`)}
                     >
-                      <Dropdown.Item id="new-file" textValue="New file" onPress={() => router.push("/add")}>
+                      <Dropdown.Item
+                        id="new-file"
+                        textValue="New file"
+                        onPress={() => router.push("/add")}
+                      >
                         <Plus className="size-4 shrink-0 text-muted" />
                         <Label>Add Car</Label>
                       </Dropdown.Item>
-                      <Dropdown.Item id="open-file" textValue="Open file" onPress={() => router.push("/bookings")}>
+                      <Dropdown.Item
+                        id="open-file"
+                        textValue="Open file"
+                        onPress={() => router.push("/bookings")}
+                      >
                         <BookMarked className="size-4 shrink-0 text-muted" />
                         <Label>By Bookings</Label>
                       </Dropdown.Item>
-                      <Dropdown.Item id="save-file" textValue="Save file" onPress={() => router.push("/added")}>
+                      <Dropdown.Item
+                        id="save-file"
+                        textValue="Save file"
+                        onPress={() => router.push("/added")}
+                      >
                         <Car className="size-4 shrink-0 text-muted" />
                         <Label>My Added Cars</Label>
                       </Dropdown.Item>

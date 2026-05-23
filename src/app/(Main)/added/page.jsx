@@ -7,7 +7,17 @@ const AddedCarsPage = async () => {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
-  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${session.user.id}`);
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/cars/${session.user.id}`,
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    },
+  );
   const data = await res.json();
   return (
     <div className="bg-black">
@@ -30,7 +40,9 @@ const AddedCarsPage = async () => {
         <div className="grid grid-cols-1 gap-6 pb-20 md:grid-cols-2 lg:grid-cols-3">
           {data.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
-              <h3 className="text-2xl font-bold mb-2 flex items-center gap-2"><Car className="text-orange-500"/> No cars listed yet</h3>
+              <h3 className="text-2xl font-bold mb-2 flex items-center gap-2">
+                <Car className="text-orange-500" /> No cars listed yet
+              </h3>
               <p className="text-gray-400 mb-6">
                 You haven't added any cars. Start earning today!
               </p>

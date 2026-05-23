@@ -46,7 +46,7 @@ const DetailsClient = ({ car, session }) => {
       bookingDate: date,
     };
 
-    const { data: tokenData } = await authClient.getToken();
+    const { data: tokenData } = await authClient.token();
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/booking`, {
       method: "POST",
