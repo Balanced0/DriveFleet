@@ -42,13 +42,13 @@ const DetailsClient = ({ car, session }) => {
       bookingDate: date,
     };
 
-    const { data: token } = await authClient.getToken();
+    const { data: tokenData } = await authClient.getToken();
 
     const res = await fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        authorization: `Bearer ${token.token}`,
+        authorization: `Bearer ${tokenData?.token}`,
       },
       body: JSON.stringify(newData),
     });
