@@ -12,11 +12,49 @@ import {
   TextField,
   Select,
   ListBox,
-  FileText,
   TextArea,
 } from "@heroui/react";
+import { ToastContainer, toast } from "react-toastify";
 
 const DetailsClient = ({ car, session }) => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = {};
+    // Convert FormData to plain object
+    formData.forEach((value, key) => {
+      data[key] = value.toString();
+    });
+
+    const d = new Date();
+    const date = d.toISOString().split("T")[0];
+
+    const newData = {
+      userId: session.user.id,
+      carName: car.carName,
+      price: car.price,
+      carType: car.carType,
+      image: car.image,
+      pickUpLocation: car.pickUpLocation,
+      driver: data.driver,
+      note: data.note,
+      bookingDate: date,
+    };
+
+    const res = await fetch("http://localhost:5000/booking", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newData),
+    });
+
+    if (res.ok) {
+      toast.success("Car Booked successfully!");
+    } else {
+      toast.error("You have already booked this car.");
+    }
+  };
   return (
     <div className="bg-black">
       <div className="container mx-auto px-4">
@@ -117,7 +155,7 @@ const DetailsClient = ({ car, session }) => {
             </div>
             <Modal>
               <Button
-                disabled={!session}
+                isDisabled={!session || car.availability !== "available"}
                 variant="secondary"
                 className="bg-orange-500 hover:bg-orange-400 transition-colors text-black font-bold btn rounded-2xl w-full text-base"
               >
@@ -137,7 +175,10 @@ const DetailsClient = ({ car, session }) => {
                     </Modal.Header>
                     <Modal.Body className="p-6">
                       <Surface variant="default">
-                        <form className="flex flex-col gap-4">
+                        <form
+                          onSubmit={onSubmit}
+                          className="flex flex-col gap-4"
+                        >
                           <Select
                             isRequired
                             placeholder="Select one"
@@ -164,7 +205,7 @@ const DetailsClient = ({ car, session }) => {
                             </Select.Popover>
                           </Select>
 
-                          <TextField isRequired name="description">
+                          <TextField isRequired name="note">
                             <Label className="flex items-center gap-2 text-gray-400">
                               Special Note
                             </Label>
@@ -173,15 +214,25 @@ const DetailsClient = ({ car, session }) => {
                               placeholder="Note..."
                             />
                           </TextField>
+                          <Modal.Footer>
+                            <Button
+                              slot="close"
+                              variant="secondary"
+                              className="text-orange-500"
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              slot="close"
+                              type="submit"
+                              className="bg-orange-500 text-black"
+                            >
+                              Book
+                            </Button>
+                          </Modal.Footer>
                         </form>
                       </Surface>
                     </Modal.Body>
-                    <Modal.Footer>
-                      <Button slot="close" variant="secondary" className="text-orange-500">
-                        Cancel
-                      </Button>
-                      <Button slot="close" className="bg-orange-500 text-black">Book</Button>
-                    </Modal.Footer>
                   </Modal.Dialog>
                 </Modal.Container>
               </Modal.Backdrop>
@@ -193,6 +244,7 @@ const DetailsClient = ({ car, session }) => {
           </div>
         </div>
       </div>
+      <ToastContainer theme="dark" />
     </div>
   );
 };
