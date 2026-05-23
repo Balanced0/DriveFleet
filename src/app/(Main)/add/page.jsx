@@ -22,7 +22,7 @@ import {
   CircleCheck,
 } from "lucide-react";
 import { authClient } from "@/app/lib/auth-client";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 
 const AddCarPage = () => {
   const onSubmit = async (e) => {
@@ -35,6 +35,7 @@ const AddCarPage = () => {
     });
 
     const { data: session } = await authClient.getSession();
+    const { data: token } = await authClient.getToken();
 
     const newData = {
       userId: session.user.id,
@@ -52,14 +53,14 @@ const AddCarPage = () => {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${token.token}`,
       },
       body: JSON.stringify(newData),
     });
 
-    if(res.ok){
+    if (res.ok) {
       toast.success("Car listed successfully!");
-    }
-    else{
+    } else {
       toast.error("Something went wrong. Please try again.");
     }
   };
@@ -228,7 +229,7 @@ const AddCarPage = () => {
           </Form>
         </div>
       </div>
-      <ToastContainer theme="dark"/>
+      <ToastContainer theme="dark" />
     </div>
   );
 };

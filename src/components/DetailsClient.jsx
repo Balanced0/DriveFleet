@@ -15,6 +15,7 @@ import {
   TextArea,
 } from "@heroui/react";
 import { ToastContainer, toast } from "react-toastify";
+import { authClient } from "@/app/lib/auth-client";
 
 const DetailsClient = ({ car, session }) => {
   const onSubmit = async (e) => {
@@ -41,10 +42,13 @@ const DetailsClient = ({ car, session }) => {
       bookingDate: date,
     };
 
+    const { data: token } = await authClient.getToken();
+
     const res = await fetch("http://localhost:5000/booking", {
       method: "POST",
       headers: {
         "content-type": "application/json",
+        authorization: `Bearer ${token.token}`,
       },
       body: JSON.stringify(newData),
     });
